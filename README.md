@@ -1,4 +1,4 @@
-# Use useStae hook to change my value dynamically
+# Use useState hook to change my value dynamically
 
 - Key take away 
 - import {useState}
