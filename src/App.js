@@ -1,20 +1,55 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import MovieCard from "./MovieCard";
+import "./App.css";
+import SearchIcon from "./search.svg";
+
+const API_URL = "http://www.omdbapi.com/?i=tt3896198&apikey=3a689f2e    ";
+// const movie1 = {
+//   Title: "The Shining in 30 Seconds (and Re-enacted by Bunnies)",
+//   Year: "2004",
+//   imdbID: "tt0473394",
+//   Type: "movie",
+//   Poster: "N/A",
+// };
 
 const App = () => {
-  const [counter, setCounter] = useState(0);
+  const [movies, setMovies] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const searchMovies = async (title) => {
+    const response = await fetch(`${API_URL}&s=${title}   `);
+    const data = await response.json();
+    setMovies(data.Search);
+  };
   useEffect(() => {
-    setCounter(20);
+    searchMovies("spider man ");
   }, []);
 
   return (
-    <div className="App">
-      <button onClick={() => setCounter((prevCount) => prevCount - 1)}>
-        -
-      </button>
-      <h1>{counter}</h1>
-      <button onClick={() => setCounter((prevCount) => prevCount + 1)}>
-        +
-      </button>
+    <div className="app">
+      <h1> Marco's Movies 🐕‍🦺 </h1>
+      <div className="search">
+        <input
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search for movies"
+        />
+        <img
+          src={SearchIcon}
+          alt="search"
+          onClick={() => searchMovies(searchTerm)}
+        />
+      </div>
+      {movies?.length > 0 ? (
+        <div className="container">
+          {movies.map((movie) => (
+            <MovieCard movie={movie} />
+          ))}
+        </div>
+      ) : (
+        <div className="empty">
+          <h2> Search Not Found . . .</h2>
+        </div>
+      )}
     </div>
   );
 };
