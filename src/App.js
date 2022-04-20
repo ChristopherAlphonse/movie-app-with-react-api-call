@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const App = () => {
   const [counter, setCounter] = useState(0);
+  useEffect(() => {
+    setCounter(20);
+  }, []);
+
   return (
     <div className="App">
       <button onClick={() => setCounter((prevCount) => prevCount - 1)}>
